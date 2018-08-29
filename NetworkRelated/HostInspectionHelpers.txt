@@ -1,0 +1,15 @@
+#list open files using port
+lsof -i :9050
+
+#kill process
+kill -9 <PID>
+
+#process info 
+ps ax | grep <pid>
+
+#kill process using port
+lsof -ti:3000 | xargs kill
+lsof -n -i4TCP:3000 
+kill -kill `lsof -t -i tcp:3000`
+
+

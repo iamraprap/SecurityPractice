@@ -1,0 +1,23 @@
+Find half connections
+    1. Collect the segments that carry the SYN or FIN flag
+        tcpdump -r pcap-file 'tcp[tcpflags] & (tcp-syn|tcp-fin) > 0
+    2. Aggregate the result by half-connection, regardless of the actual flag (SYN or FIN)
+        2.1. Sort by half-connection
+            sed -r 's/^.*IP (.*) > (.*):.*$/\1 \2/'|sort
+        2.2. Count the segments involved in each half-connection and filter out all half connections which correctly involve two segments
+            uniq -u
+
+Capture specific Flags:
+    tcp.flags.syn==1 && tcp.flags.ack==0
+
+Capture TCP/SYN packets
+    tcp[0xd]&18=2
+
+Capture SYN & SYNC/ACK
+    tcp.flags.syn==1
+    tcp[0xd]&2=2
+
+
+Decrypt TLS in WireShark:
+    export SSLKEYLOGFILE=/usr/local/etc/TLS/sslkeylog.log
+    (add to ~/.bashrc OR ~/.MacOSX/environment)
